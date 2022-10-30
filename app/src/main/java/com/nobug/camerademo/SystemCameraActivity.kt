@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.provider.Settings
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -31,6 +30,7 @@ class SystemCameraActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var ivSystemCamera: ImageView
     private val REQUEST_CODE1 = 0x01
     private val REQUEST_CODE2 = 0x02
+    private val REQUEST_CODE3 = 0x03
 
     companion object{
         private const val AUTHORITIES = "com.nobug.camerademo.takephoto.fileprovider"
@@ -95,6 +95,31 @@ class SystemCameraActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    private fun cropImage(uri: Uri, mOutImage: File): Intent? {
+        val intent = Intent("com.android.camera.action.CROP")
+        intent.setDataAndType(uri, "image/*")
+        intent.putExtra("crop", "true") // 可裁剪
+        intent.putExtra("aspectX", 1) // 裁剪的宽比例
+        intent.putExtra("aspectY", 1) // 裁剪的高比例
+        intent.putExtra("outputX", 300) // 裁剪的宽度
+        intent.putExtra("outputY", 300) // 裁剪的高度
+        // intent.putExtra("spotlightX", 1.1f);//X轴方向的抽屉式壁纸选择框（个别设备有效）
+        // intent.putExtra("spotlightY", 2.1f);//Y轴方向的抽屉式壁纸选择框（个别设备有效）
+        intent.putExtra("scale", true) // 是否支持缩放
+        // intent.putExtra("circleCrop", "true");// 圆形裁剪区域(设置无效)
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mOutImage))
+        // 是否返回数据
+        intent.putExtra("return-data", true)
+        // 裁剪成的图片的输出格式
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString())
+        //是否关闭人脸识别
+        intent.putExtra("noFaceDetection", false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        }
+        return intent
+    }
+
     /**
      * 检查是否强制分区
      *
@@ -136,11 +161,15 @@ class SystemCameraActivity : AppCompatActivity(), View.OnClickListener {
             }
         } else if(requestCode == REQUEST_CODE2 && resultCode === RESULT_OK){
             if(mImageUri != null){
-                Glide.with(this@SystemCameraActivity)
-                    .asBitmap()
-                    .load(mOutImage)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .into(ivSystemCamera)
+                //拿到图片资源后开始截图
+                startActivityForResult(cropImage(mImageUri, mOutImage), REQUEST_CODE3);
+            }
+        } else if (requestCode == REQUEST_CODE3 && resultCode === RESULT_OK) {
+            if (data != null && data.hasExtra("data")) {
+                val bitmap: Bitmap? = data.getParcelableExtra("data")
+                bitmap.let {
+                    ivSystemCamera.setImageBitmap(it)
+                }
             }
         }
     }
