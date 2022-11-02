@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.nobug.camerademo.surface.SurfaceCameraActivity
+import com.nobug.camerademo.texture.TextureCameraActivity
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var btMainSystemCamera: Button
     private lateinit var btTextureCamera: Button
-
+    private lateinit var btSurfaceCamera: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,6 +21,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         btMainSystemCamera.setOnClickListener(this)
         btTextureCamera = findViewById(R.id.btTextureCamera)
         btTextureCamera.setOnClickListener(this)
+        btSurfaceCamera = findViewById(R.id.btSurfaceCamera)
+        btSurfaceCamera.setOnClickListener(this)
     }
 
     override fun onClick(v: View) {
@@ -29,6 +33,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.btTextureCamera -> {
                 val intent = Intent(this@MainActivity, TextureCameraActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.btSurfaceCamera -> {
+                val intent = Intent(this@MainActivity, SurfaceCameraActivity::class.java)
                 startActivity(intent)
             }
         }

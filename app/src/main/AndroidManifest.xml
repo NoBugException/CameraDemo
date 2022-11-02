@@ -37,7 +37,11 @@
 
         <activity
             android:theme="@style/Theme.NoActionBar"
-            android:name=".TextureCameraActivity" />
+            android:name=".texture.TextureCameraActivity" />
+
+        <activity
+            android:theme="@style/Theme.NoActionBar"
+            android:name=".surface.SurfaceCameraActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
