@@ -1,7 +1,5 @@
-package com.nobug.camerademo.texture
+package com.nobug.camerademo.camera.surface
 
-import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -15,7 +13,6 @@ import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.nobug.camerademo.R
@@ -26,7 +23,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class TextureCameraActivity : AppCompatActivity(), View.OnClickListener {
+class SurfaceCameraActivity : AppCompatActivity(), View.OnClickListener {
 
     private var mPreview: CameraPreview? = null
     private var fl_camera_preview: FrameLayout? = null
@@ -81,14 +78,11 @@ class TextureCameraActivity : AppCompatActivity(), View.OnClickListener {
         //设置透明度
         mPreview?.alpha = 1f
 
+        //添加监听
+        mPreview?.getHolder()?.addCallback(mPreview);
+
         //将预览页面添加到FrameLayout中
         fl_camera_preview?.addView(mPreview)
-        //设置监听
-        mPreview?.surfaceTextureListener = mPreview
-
-        //创建聚焦视图对象
-        //mFocusCameraView = new FocusCameraView(this);
-        //fl_camera_preview.addView(mFocusCameraView);
     }
 
     /**
@@ -102,14 +96,14 @@ class TextureCameraActivity : AppCompatActivity(), View.OnClickListener {
                 @SuppressLint("ObjectAnimatorBinding")
                 override fun success(data: ByteArray?) {
                     //视图动画
-                    ll_photo_layout!!.visibility = View.GONE
-                    val anim1 = ObjectAnimator.ofFloat(ll_confirm_layout, "scaleX", 0f, 1.0f)
-                    val anim2 = ObjectAnimator.ofFloat(ll_confirm_layout, "scaleY", 0f, 1.0f)
-                    val animatorSet = AnimatorSet()
-                    animatorSet.duration = 500
-                    animatorSet.play(anim1).with(anim2)
-                    animatorSet.interpolator = AccelerateDecelerateInterpolator()
-                    animatorSet.start()
+                    ll_photo_layout?.visibility = View.GONE
+//                    val anim1 = ObjectAnimator.ofFloat(ll_confirm_layout, "scaleX", 0f, 1.0f)
+//                    val anim2 = ObjectAnimator.ofFloat(ll_confirm_layout, "scaleY", 0f, 1.0f)
+//                    val animatorSet = AnimatorSet()
+//                    animatorSet.duration = 500
+//                    animatorSet.play(anim1).with(anim2)
+//                    animatorSet.interpolator = AccelerateDecelerateInterpolator()
+//                    animatorSet.start()
                     ll_confirm_layout?.visibility = View.VISIBLE
                     //停止预览
                     imageData = data
@@ -141,7 +135,7 @@ class TextureCameraActivity : AppCompatActivity(), View.OnClickListener {
         //保存的图片文件
         val simpleDateFormat = SimpleDateFormat("yyyyMMdd_HHmmss")
         val imagePath: String =
-            cameraFolder.getAbsolutePath() + File.separator.toString() + "IMG_" + simpleDateFormat.format(
+            cameraFolder.absolutePath + File.separator.toString() + "IMG_" + simpleDateFormat.format(
                 Date()
             ).toString() + ".jpg"
         val imageFile = File(imagePath)
@@ -183,16 +177,16 @@ class TextureCameraActivity : AppCompatActivity(), View.OnClickListener {
      */
     @SuppressLint("ObjectAnimatorBinding")
     private fun changePreview() {
-        val mCamera = mPreview!!.camera ?: return
-        ll_confirm_layout!!.visibility = View.GONE
-        val anim1 = ObjectAnimator.ofFloat(ll_photo_layout, "scaleX", 0f, 1.0f)
-        val anim2 = ObjectAnimator.ofFloat(ll_photo_layout, "scaleY", 0f, 1.0f)
-        val animatorSet = AnimatorSet()
-        animatorSet.duration = 500
-        animatorSet.play(anim1).with(anim2)
-        animatorSet.interpolator = AccelerateDecelerateInterpolator()
-        animatorSet.start()
-        ll_photo_layout!!.visibility = View.VISIBLE
+        val mCamera = mPreview?.camera ?: return
+        ll_confirm_layout?.visibility = View.GONE
+//        val anim1 = ObjectAnimator.ofFloat(ll_photo_layout, "scaleX", 0f, 1.0f)
+//        val anim2 = ObjectAnimator.ofFloat(ll_photo_layout, "scaleY", 0f, 1.0f)
+//        val animatorSet = AnimatorSet()
+//        animatorSet.duration = 500
+//        animatorSet.play(anim1).with(anim2)
+//        animatorSet.interpolator = AccelerateDecelerateInterpolator()
+//        animatorSet.start()
+        ll_photo_layout?.visibility = View.VISIBLE
 
         //开始预览
         mCamera.startPreview()

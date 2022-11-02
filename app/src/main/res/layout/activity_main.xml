@@ -31,6 +31,12 @@
         android:textAllCaps="false"
         android:layout_gravity="center_horizontal" />
 
-
+    <Button
+        android:id="@+id/btTextureCamera2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="自定义Camera2（TextureView）"
+        android:textAllCaps="false"
+        android:layout_gravity="center_horizontal" />
 
 </LinearLayout>

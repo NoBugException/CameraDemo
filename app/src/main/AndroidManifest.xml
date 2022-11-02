@@ -10,8 +10,10 @@
 
     <!-- 闪光灯权限 -->
     <uses-permission android:name="android.permission.FLASHLIGHT" />
-
+    <!--Camera需要-->
     <uses-feature android:name="android.hardware.camera" />
+    <!--Camera2需要-->
+    <uses-feature android:name="android.hardware.camera2.full" />
 
     <application
         android:allowBackup="true"
@@ -37,11 +39,15 @@
 
         <activity
             android:theme="@style/Theme.NoActionBar"
-            android:name=".texture.TextureCameraActivity" />
+            android:name=".camera.texture.TextureCameraActivity" />
 
         <activity
             android:theme="@style/Theme.NoActionBar"
-            android:name=".surface.SurfaceCameraActivity" />
+            android:name=".camera.surface.SurfaceCameraActivity" />
+
+        <activity
+            android:theme="@style/Theme.NoActionBar"
+            android:name=".camera2.texture.TextureCamera2Activity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

@@ -1,4 +1,4 @@
-package com.nobug.camerademo.texture;
+package com.nobug.camerademo.camera2.texture;
 
 public interface ITakePicture {
 

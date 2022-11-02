@@ -1,4 +1,4 @@
-package com.nobug.camerademo.surface;
+package com.nobug.camerademo.camera.surface;
 
 public interface ISmoothZoom {
 
