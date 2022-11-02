@@ -15,4 +15,13 @@
         android:text="调用系统相机"
         android:layout_gravity="center_horizontal" />
 
+    <Button
+        android:id="@+id/btTextureCamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="自定义Camera（TextureView）"
+        android:textAllCaps="false"
+        android:layout_gravity="center_horizontal" />
+
+
 </LinearLayout>

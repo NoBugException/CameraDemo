@@ -9,18 +9,26 @@ import androidx.appcompat.app.AppCompatActivity
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var btMainSystemCamera: Button
+    private lateinit var btTextureCamera: Button
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         btMainSystemCamera = findViewById(R.id.btMainSystemCamera)
         btMainSystemCamera.setOnClickListener(this)
+        btTextureCamera = findViewById(R.id.btTextureCamera)
+        btTextureCamera.setOnClickListener(this)
     }
 
     override fun onClick(v: View) {
         when(v.id) {
             R.id.btMainSystemCamera -> {
                 val intent = Intent(this@MainActivity, SystemCameraActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.btTextureCamera -> {
+                val intent = Intent(this@MainActivity, TextureCameraActivity::class.java)
                 startActivity(intent)
             }
         }
